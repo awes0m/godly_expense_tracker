@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 class AdaptiveFlatButton extends StatelessWidget {
   final String text;
-  final Function handler;
+  final VoidCallback handler;
   AdaptiveFlatButton(this.text, this.handler);
 
   @override
@@ -13,17 +13,17 @@ class AdaptiveFlatButton extends StatelessWidget {
     return Platform.isIOS
         ? CupertinoButton(
             child: Text(
-              'Choose Date',
+              text,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            onPressed: () => handler,
+            onPressed: handler,
           )
         : TextButton(
             child: Text(
-              'Choose Date',
+              text,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            onPressed: () => handler,
+            onPressed: handler,
           );
   }
 }
