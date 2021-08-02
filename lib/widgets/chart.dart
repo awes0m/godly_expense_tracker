@@ -5,7 +5,7 @@ import './chart_bar.dart';
 
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransactions;
-  Chart(this.recentTransactions);
+  const Chart(this.recentTransactions);
 
   List<Map<String, Object>> get groupedTransactionsValues {
     return List.generate(7, (index) {
@@ -21,13 +21,13 @@ class Chart extends StatelessWidget {
           totalSum += recentTransactions[i].amount;
         }
       }
-      return ({'day': DateFormat.E().format(weekDay), 'amount': totalSum});
+      return {'day': DateFormat.E().format(weekDay), 'amount': totalSum};
     }).reversed.toList();
   }
 
   double get totalSpending {
     return groupedTransactionsValues.fold(0.0, (sum, item) {
-      return (sum + (item['amount'] as double));
+      return sum + (item['amount'] as double);
     });
   }
 
@@ -39,9 +39,9 @@ class Chart extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.4,
       child: Card(
         elevation: 6,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: groupedTransactionsValues.map((data) {
@@ -49,7 +49,7 @@ class Chart extends StatelessWidget {
                 fit: FlexFit.tight,
                 child: ChartBar(
                   data['day'].toString(),
-                  (data['amount'] as double),
+                  data['amount'] as double,
                   totalSpending == 0.0
                       ? 0.0
                       : (data['amount'] as double) / totalSpending,

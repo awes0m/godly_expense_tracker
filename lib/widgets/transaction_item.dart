@@ -23,10 +23,10 @@ class _TransactionItemState extends State<TransactionItem> {
   @override
   void initState() {
     const availableColors = [
-      Colors.red,
-      Colors.blue,
+      Colors.grey,
+      Colors.brown,
       Colors.black,
-      Colors.purple,
+      Colors.black26,
     ];
     _bgColor = availableColors[Random().nextInt(4)];
     super.initState();
@@ -36,7 +36,7 @@ class _TransactionItemState extends State<TransactionItem> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 9,
         horizontal: 5,
       ),
@@ -49,7 +49,7 @@ class _TransactionItemState extends State<TransactionItem> {
               child: FittedBox(child: Text('${widget.transactions.amount}'))),
         ),
         title: Text(
-          '${widget.transactions.title}',
+          widget.transactions.title,
           style: Theme.of(context).textTheme.headline6,
         ),
         subtitle: Text(

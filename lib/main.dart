@@ -26,14 +26,14 @@ class MyApp extends StatelessWidget {
         errorColor: Colors.orangeAccent,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
+              headline6: const TextStyle(
                   fontFamily: 'OpenSans',
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),
         appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
-                  headline6: TextStyle(
+                  headline6: const TextStyle(
                       fontFamily: 'OpenSans',
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
@@ -64,15 +64,16 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     print(state);
   }
 
-  dispose() {
+  @override
+  void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
   List<Transaction> get _recentTransactions {
-    return _userTransactions.where((element) {
+    return _userTransactions.where((Transaction element) {
       return element.date.isAfter(DateTime.now().subtract(
-        Duration(days: 7),
+        const Duration(days: 7),
       ));
     }).toList();
   }
@@ -99,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   void _deleteTransaction(String id) {
     setState(() {
-      _userTransactions.removeWhere((tx) => tx.id == id);
+      _userTransactions.removeWhere((Transaction tx) => tx.id == id);
     });
   }
 
@@ -113,22 +114,23 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           Switch.adaptive(
               activeColor: Theme.of(context).accentColor,
               value: _showChart,
-              onChanged: (val) {
+              onChanged: (bool val) {
                 setState(() {
                   _showChart = val;
                 });
               }),
         ],
       ),
-      _showChart
-          ? Container(
-              height: (mediaQuery.size.height -
-                      appBar.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  0.7,
-              child: Chart(_recentTransactions),
-            )
-          : txListWidget,
+      if (_showChart)
+        Container(
+          height: (mediaQuery.size.height -
+                  appBar.preferredSize.height -
+                  mediaQuery.padding.top) *
+              0.7,
+          child: Chart(_recentTransactions),
+        )
+      else
+        txListWidget,
     ];
   }
 
@@ -160,23 +162,23 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     Widget _buildAppBar() {
       return Platform.isIOS
           ? CupertinoNavigationBar(
-              middle: Text("Godly Expense Tracker"),
+              middle: const Text("Godly Expense Tracker"),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   GestureDetector(
-                    child: Icon(CupertinoIcons.add),
                     onTap: () => _startAddNewTransaction(context),
+                    child: const Icon(CupertinoIcons.add),
                   ),
                 ],
               ),
             )
           : AppBar(
-              title: Text("Godly Expense Tracker"),
+              title: const Text("Godly Expense Tracker"),
               actions: <Widget>[
                 IconButton(
                     onPressed: () => _startAddNewTransaction(context),
-                    icon: Icon(Icons.add)),
+                    icon: const Icon(Icons.add)),
               ],
             );
     }
@@ -208,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                 ? Container()
                 : FloatingActionButton(
                     onPressed: () => _startAddNewTransaction(context),
-                    child: Icon(Icons.add)),
+                    child: const Icon(Icons.add)),
           );
   }
 }
