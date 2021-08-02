@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '../widgets/transaction_item.dart';
+
 import '../models/transaction.dart';
+import '../widgets/transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
+  const TransactionList(this.transactions, this.deleteTx);
   final List<Transaction> transactions;
   final Function deleteTx;
-  TransactionList(this.transactions, this.deleteTx);
   @override
   Widget build(BuildContext context) {
     print('build() TransactionList');
@@ -31,14 +32,16 @@ class TransactionList extends StatelessWidget {
                 )
               ]);
             })
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return TransactionItem(
-                  transactions: transactions[index],
-                  deleteTx: deleteTx,
-                );
-              },
-              itemCount: transactions.length,
+          : ListView(
+              children: [
+                ...transactions.map(
+                  (tx) => TransactionItem(
+                    key: ValueKey(tx.id),
+                    transactions: tx,
+                    deleteTx: deleteTx,
+                  ),
+                )
+              ],
             ),
     );
   }
